@@ -26,18 +26,18 @@ function Page() {
 
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
         const result = await signIn('credentials', {
-          redirect: false,
-          identifier: data.identifier,
-          password: data.password
+            redirect: false,
+            identifier: data.identifier,
+            password: data.password
         })
 
         if (result?.error) {
-          toast.error("Failed to sign in please try again!")
+            toast.error("Failed to sign in please try again!")
         }
 
         if (result?.url) {
-          toast.success("Login successfully!")
-          router.replace('/dashboard')
+            toast.success("Login successfully!")
+            router.replace('/dashboard')
         }
     }
 
@@ -104,7 +104,7 @@ function Page() {
                             type="submit"
                             className="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
                         >
-                          Sign In
+                            Sign In
                         </Button>
                     </form>
 
