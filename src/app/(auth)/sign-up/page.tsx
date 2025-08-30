@@ -73,10 +73,10 @@ function Page() {
     return (
         <div
             className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center relative"
-            // style={{
-            //     backgroundImage:
-            //         "url('')",
-            // }}
+            style={{
+                backgroundImage:
+                    "url('https://images.unsplash.com/photo-1508780709619-79562169bc64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80')",
+            }}
         >
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/70" />

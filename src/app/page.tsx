@@ -2,7 +2,7 @@ import React from 'react'
 
 function page() {
     return (
-        <div className='w-full h-screen bg-black text-white'>Home Page</div>
+        <div className='bg-black w-full min-h-screen'>Home Page</div>
     )
 }
 
