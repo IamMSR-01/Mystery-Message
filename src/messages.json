@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Hello Stranger",
+        "content": "Hey! Just wanted to say hi and hope you're having a great day!",
+        "received": "2025-08-31T10:15:00Z"
+    },
+    {
+        "title": "Secret Tip",
+        "content": "Always trust your instincts, they rarely lie.",
+        "received": "2025-08-30T18:45:00Z"
+    },
+    {
+        "title": "Motivation",
+        "content": "Keep pushing forward, even small steps lead to big progress.",
+        "received": "2025-08-29T08:30:00Z"
+    },
+    {
+        "title": "Anonymous Note",
+        "content": "Someone is thinking about you today. Smile!",
+        "received": "2025-08-28T12:00:00Z"
+    },
+    {
+        "title": "Friendly Reminder",
+        "content": "Don't forget to take breaks and relax for a while.",
+        "received": "2025-08-27T21:20:00Z"
+    },
+    {
+        "title": "Inspiration",
+        "content": "Your dreams are valid. Keep believing in yourself.",
+        "received": "2025-08-26T14:10:00Z"
+    }
+]
