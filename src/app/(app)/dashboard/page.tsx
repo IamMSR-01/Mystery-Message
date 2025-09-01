@@ -27,7 +27,10 @@ function Page() {
   const { data: session, status } = useSession();
 
   const form = useForm({
-    resolver: zodResolver(acceptMessageSchema)
+    resolver: zodResolver(acceptMessageSchema),
+    defaultValues: {
+      acceptMessages: false, 
+    }
   })
 
   const { register, watch, setValue } = form;
@@ -69,13 +72,16 @@ function Page() {
   }, [session, setValue, fetchAcceptMessage, fetchMessages])
 
   const handleSwitchChange = async () => {
+    const previousAcceptMessages = watch('acceptMessages');
+    setValue('acceptMessages', !previousAcceptMessages);
+
     try {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
-        acceptMessages: !acceptMessages
+        acceptMessages: !previousAcceptMessages
       })
-      setValue('acceptMessages', !acceptMessages)
       toast.success(response.data.message)
     } catch (error) {
+      setValue('acceptMessages', previousAcceptMessages);
       const axiosError = error as AxiosError<ApiResponse>;
       toast.error(axiosError.response?.data.message || "Failed to update settings");
     }
@@ -98,25 +104,30 @@ function Page() {
   }
 
   return (
-    <div className="min-h-screen w-full p-6 px-28 bg-gray-900 text-white">
-      <h1 className="text-3xl font-bold mt-6 mb-6">User Dashboard</h1>
+    <div className="min-h-screen w-full p-4 sm:p-6 md:px-12 lg:px-28 bg-gray-900 text-white">
+      <h1 className="text-2xl sm:text-3xl font-bold mt-6 mb-6">User Dashboard</h1>
 
       {/* Profile Link */}
-      <div className="mb-6 p-4 bg-black/40 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div>
-          <h2 className="text-lg font-semibold mb-1">Copy your unique link</h2>
+      <div className="mb-6 p-4 bg-black/40 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="w-full sm:w-auto flex-1">
+          <h2 className="text-base sm:text-lg font-semibold mb-1">Copy your unique link</h2>
           <input
             type="text"
             value={profileUrl}
             disabled
-            className="w-full sm:w-auto p-2 rounded-lg bg-gray-700 border border-gray-600 text-white px-3"
+            className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 text-white text-sm sm:text-base"
           />
         </div>
-        <Button onClick={copyToClipboard} className="mt-2 sm:mt-0 sm:ml-4 bg-blue-700 cursor-pointer hover:bg-blue-500">Copy</Button>
+        <Button 
+          onClick={copyToClipboard} 
+          className="w-full sm:w-auto mt-8 sm:mt-0 sm:ml-4 bg-blue-700 hover:bg-blue-500"
+        >
+          Copy
+        </Button>
       </div>
 
       {/* Accept Messages Switch */}
-      <div className="mb-6 flex items-center gap-4">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3">
         <Switch
           {...register('acceptMessages')}
           checked={acceptMessages}
@@ -124,7 +135,9 @@ function Page() {
           disabled={isSwitchLoading}
           className='bg-blue-700 data-[state=unchecked]:bg-red-600 data-[state=checked]:bg-green-600'
         />
-        <span>Accept Messages: <strong>{acceptMessages ? "On" : "Off"}</strong></span>
+        <span className="text-sm sm:text-base">
+          Accept Messages: <strong>{acceptMessages ? "On" : "Off"}</strong>
+        </span>
       </div>
       <Separator />
 
@@ -133,13 +146,14 @@ function Page() {
         <Button
           variant="outline"
           onClick={(e) => { e.preventDefault(); fetchMessages(true); }}
+          className="w-full sm:w-auto"
         >
           {isLoading ? <Loader2 className="animate-spin w-4 h-4 text-black" /> : <RefreshCcw className='text-black w-4 h-4' />}
         </Button>
       </div>
 
       {/* Messages */}
-      <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {messages.length > 0 ? (
           messages.map((message) => (
             <MessageCard
