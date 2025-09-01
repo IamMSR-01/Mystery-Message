@@ -99,7 +99,7 @@ export async function GET(request: Request) {
             {
                 success: true,
                 message: "User found",
-                isAcceptingMessage: foundUser.isAcceptingMessage,
+                isAcceptingMessage: foundUser.isAcceptingMessages,
             },
             { status: 200 }
         );

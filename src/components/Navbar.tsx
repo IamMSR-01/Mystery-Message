@@ -28,14 +28,14 @@ function Navbar() {
                             </span>
                             <Button
                                 onClick={() => signOut()}
-                                className="bg-white text-purple-600 hover:bg-gray-100 transition"
+                                className="bg-white text-purple-600 hover:bg-gray-100 transition cursor-pointer"
                             >
                                 Logout
                             </Button>
                         </>
                     ) : (
                         <Link href="/sign-in">
-                            <Button className="bg-white text-purple-600 hover:bg-gray-100 transition">
+                            <Button className="bg-white text-purple-600 hover:bg-gray-100 transition cursor-pointer">
                                 Login
                             </Button>
                         </Link>
