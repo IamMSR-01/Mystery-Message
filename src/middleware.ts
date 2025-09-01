@@ -18,12 +18,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (
-    url.pathname.startsWith("/dashboard") ||
-    url.pathname.startsWith("/verify")
-  ) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (
+  //   url.pathname.startsWith("/dashboard")
+  // ) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
   return NextResponse.next();
 }

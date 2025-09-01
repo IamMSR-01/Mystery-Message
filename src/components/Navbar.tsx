@@ -24,7 +24,7 @@ function Navbar() {
                     {session ? (
                         <>
                             <span className="text-white font-medium">
-                                Welcome, {user?.username || user?.email}
+                                Welcome! {user?.username?.toLocaleUpperCase() || user?.email}
                             </span>
                             <Button
                                 onClick={() => signOut()}

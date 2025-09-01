@@ -12,8 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-function verifyAccount() {
-
+function VerifyAccount() {
     const router = useRouter()
     const params = useParams()
 
@@ -28,7 +27,6 @@ function verifyAccount() {
                 code: data.code
             })
             toast.success(response.data.message)
-
             router.replace('/sign-in')
         } catch (error) {
             toast.error("Failed to verify account")
@@ -40,29 +38,36 @@ function verifyAccount() {
     }
 
     return (
-        <div>
-            <div>
-                <div>
-                    <h1>Verify Your Account</h1>
-                    <p>Enter the verification code sent to your email</p>
+        <div className="min-h-screen flex items-center justify-center bg-black text-white px-4">
+            <div className="w-full max-w-md p-8 bg-gray-900 rounded-2xl shadow-lg">
+                <div className="text-center mb-6">
+                    <h1 className="text-3xl font-bold">Verify Your Account</h1>
+                    <p className="text-gray-400 mt-2">Enter the verification code sent to your email</p>
                 </div>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} >
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <FormField
                             name='code'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Verification Code</FormLabel>
+                                    <FormLabel className="text-gray-300">Verification Code</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Enter your verification code" {...field} />
+                                        <Input
+                                            placeholder="Enter your verification code"
+                                            {...field}
+                                            className="w-full p-3 border rounded-lg bg-gray-800 border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="text-red-400"/>
                                 </FormItem>
                             )}
                         />
-                        <Button type='submit'>
+                        <Button
+                            type='submit'
+                            className="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
+                        >
                             Submit
                         </Button>
                     </form>
@@ -72,4 +77,4 @@ function verifyAccount() {
     )
 }
 
-export default verifyAccount
+export default VerifyAccount
