@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(
-                credentials: Record<string, string> | undefined
+                credentials: any
             ): Promise<any> {
                 await dbConnect();
 
