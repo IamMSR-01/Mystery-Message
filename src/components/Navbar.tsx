@@ -23,7 +23,7 @@ function Navbar() {
                 >
                     <img
                         className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
-                        src="https://images.pexels.com/photos/19783226/pexels-photo-19783226.jpeg"
+                        src="Logo.png"
                         alt="Logo"
                     />
                     Mystery Message
