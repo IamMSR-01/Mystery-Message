@@ -13,6 +13,7 @@ export const authOptions: NextAuthOptions = {
                 identifier: { label: "Email or Username", type: "text" },
                 password: { label: "Password", type: "password" },
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             async authorize(credentials: any): Promise<any> {
                 await dbConnect();
 
@@ -41,13 +42,7 @@ export const authOptions: NextAuthOptions = {
                     );
 
                     if (isPasswordCorrect) {
-                        return {
-                            _id: user._id.toString(),
-                            isVerified: user.isVerified,
-                            isAcceptingMessages: user.isAcceptingMessages,
-                            username: user.username,
-                            email: user.email,
-                        };
+                        return user;
                     } else {
                         throw new Error("Incorrect password");
                     }
@@ -63,10 +58,17 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token._id = user._id?.toString();
-                token.isVerified = user.isVerified;
-                token.isAcceptingMessages = user.isAcceptingMessages;
-                token.username = user.username;
+                const userObj = user as {
+                    _id: string;
+                    isVerified?: boolean;
+                    isAcceptingMessages?: boolean;
+                    username?: string;
+                };
+
+                token._id = userObj._id?.toString();
+                token.isVerified = userObj.isVerified;
+                token.isAcceptingMessages = userObj.isAcceptingMessages;
+                token.username = userObj.username;
             }
 
             return token;
