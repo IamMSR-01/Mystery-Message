@@ -6,6 +6,7 @@ import { User } from "next-auth";
 
 export async function DELETE(
     request: Request,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     context: any 
 ) {
     const messageId = context.params.messageid;
