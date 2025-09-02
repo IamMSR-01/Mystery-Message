@@ -1,9 +1,8 @@
-import { NextAuthOptions } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import bcrypt from "bcryptjs"
-import dbConnect from "@/lib/db"
-import UserModel from "@/models/User"
-
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import dbConnect from "@/lib/db";
+import UserModel from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -11,39 +10,51 @@ export const authOptions: NextAuthOptions = {
             id: "credentials",
             name: "Credentials",
             credentials: {
-                email: { label: "Email or Username", type: "text" },
-                password: { label: "Password", type: "password" }
+                identifier: { label: "Email or Username", type: "text" },
+                password: { label: "Password", type: "password" },
             },
-            async authorize(credentials: any): Promise<any>{
+            async authorize(
+                credentials: Record<string, string> | undefined
+            ): Promise<any> {
                 await dbConnect();
+
+                if (!credentials?.identifier || !credentials?.password) {
+                    throw new Error("Email/Username and password are required");
+                }
+
                 try {
                     const user = await UserModel.findOne({
                         $or: [
-                            {email: credentials.identifier},
-                            {username: credentials.identifier}
-                        ]
-                    })
+                            { email: credentials.identifier },
+                            { username: credentials.identifier },
+                        ],
+                    });
                     if (!user) {
-                        throw new Error("No user found with this email")
+                        throw new Error("No user found with this email");
                     }
 
                     if (!user.isVerified) {
-                        throw new Error("Please verify your account before login")
+                        throw new Error("Please verify your account before login");
                     }
 
-                    const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+                    const isPasswordCorrect = await bcrypt.compare(
+                        credentials.password,
+                        user.password
+                    );
 
                     if (isPasswordCorrect) {
                         return user;
-                    }else{
-                        throw new Error("Incorrect password")
+                    } else {
+                        throw new Error("Incorrect password");
                     }
-
-                } catch (err: any) {
-                    throw new Error()
+                } catch (err: unknown) {
+                    if (err instanceof Error) {
+                        throw new Error(err.message);
+                    }
+                    throw new Error("An unknown error occurred");
                 }
-            }
-        })
+            },
+        }),
     ],
     callbacks: {
         async jwt({ token, user }) {
@@ -54,7 +65,7 @@ export const authOptions: NextAuthOptions = {
                 token.username = user.username;
             }
 
-            return token
+            return token;
         },
         async session({ session, token }) {
             if (token) {
@@ -63,15 +74,14 @@ export const authOptions: NextAuthOptions = {
                 session.user.isAcceptingMessages = token.isAcceptingMessages;
                 session.user.username = token.username;
             }
-            return session
-        }
+            return session;
+        },
     },
     pages: {
-        signIn: 'sign-in'
+        signIn: "sign-in",
     },
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
     },
-    secret: process.env.NEXTAUTH_SECRET
-}
-
+    secret: process.env.NEXTAUTH_SECRET,
+};

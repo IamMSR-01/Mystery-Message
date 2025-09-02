@@ -32,7 +32,7 @@ function VerifyAccount() {
             toast.error("Failed to verify account")
             console.error("Error in verifying user ", error)
             const axiosError = error as AxiosError<ApiResponse>
-            let errorMessage = axiosError.response?.data.message
+            const errorMessage = axiosError.response?.data.message
             toast.error(errorMessage);
         }
     }

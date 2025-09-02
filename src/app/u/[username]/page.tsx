@@ -23,7 +23,7 @@ const initialMessages = [
     "What's the best piece of advice you've ever received?",
 ]
 
-function page() {
+function Page() {
     const params = useParams<{ username: string }>();
     const username = params.username;
 
@@ -159,4 +159,4 @@ function page() {
     );
 }
 
-export default page
+export default Page

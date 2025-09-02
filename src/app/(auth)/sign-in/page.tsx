@@ -110,7 +110,7 @@ function Page() {
 
                     <div className="text-center mt-4">
                         <p className="text-sm text-gray-400">
-                            Don't have an account?{" "}
+                            Don&apos;t have an account?{" "}
                             <Link href="/sign-up" className="text-indigo-400 hover:underline">
                                 Sign up
                             </Link>
