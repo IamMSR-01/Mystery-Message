@@ -13,9 +13,7 @@ export const authOptions: NextAuthOptions = {
                 identifier: { label: "Email or Username", type: "text" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(
-                credentials: any
-            ): Promise<any> {
+            async authorize(credentials: any): Promise<any> {
                 await dbConnect();
 
                 if (!credentials?.identifier || !credentials?.password) {
@@ -43,7 +41,13 @@ export const authOptions: NextAuthOptions = {
                     );
 
                     if (isPasswordCorrect) {
-                        return user;
+                        return {
+                            _id: user._id.toString(),
+                            isVerified: user.isVerified,
+                            isAcceptingMessages: user.isAcceptingMessages,
+                            username: user.username,
+                            email: user.email,
+                        };
                     } else {
                         throw new Error("Incorrect password");
                     }
